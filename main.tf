@@ -96,12 +96,3 @@ resource "google_container_cluster" "default" {
     }
   }
 }
-
-resource "google_compute_disk" "default" {
-  count      = "${local.count}"
-  depends_on = ["google_project_services.default"]
-
-  name = "${lower(replace(element(split("@", local.attendees[count.index]), 0), "/[^[:alnum:]]/", "-"))}"
-  zone = "${element(google_container_cluster.default.*.zone, count.index)}"
-  size = "10"
-}
